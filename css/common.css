@@ -1,0 +1,69 @@
+@charset "utf-8";
+/*
+ CSS Document
+ Code By Like 2012.12.25
+ updata: zhangjun
+ time:   13.12.26
+ time:   14.05.21
+*/
+
+/*define style*/
+/*body{ background:#fff;}*/
+.wrap{ margin:0 auto;width:960px; overflow:hidden; }
+a,a:visited{text-decoration:none;}
+a:hover{ text-decoration:underline;}
+a img,img{ display:block;}
+li, ul li{ list-style:none;}
+a{outline:none;/*blr:expression(this.onfocus=this.blur());*/}
+table{border-collapse:collapse;border-spacing:0;}
+/*layout style*/
+.height_10px{ height:10px; line-height:10px; clear:both;}
+.float_left{ float:left;}
+.float_right{ float:right;}
+
+/*cleat float*/
+.clear {clear:both; display:block; overflow:hidden; visibility:hidden; width:0;height:0}
+/*.clearfix:after {clear:both; content:' '; display:block; font-size:0; line-height:0; visibility:hidden; width:0; height:0}
+.clearfix {*zoom:1}*/
+.clearit{ clear:both}
+/*top nav*/
+#common_topNav{ background:url(http://bj.xdf.cn/Portals/24/xdf_common/images/top_bottom.png) repeat-x 0 0; height:28px; text-align:center;}
+.topNav_main{ font-size:12px; margin:0 auto; width:960px;}
+.topNav_main p{color:#333; line-height:28px; padding-left:6px;text-align:left; width:550px; }
+.topNav_main .topNav_list {display:inline-block; height:28px; width:300px; }
+.topNav_main ul{ line-height:28px; padding:0 0 0 26px; text-align:right; }
+.topNav_main ul li{ color:#333; padding:0 6px;}
+.topNav_main ul .topNav_line{  background:url(http://bj.xdf.cn/Portals/24/xdf_common/images/top_bottom.png) no-repeat -10px -58px;display:inline-block;height:28px; /*line-height:28px;*/ padding:0; width:5px;}
+.topNav_main ul .topNav_slantLine{background:url(http://bj.xdf.cn/Portals/24/xdf_common/images/top_bottom.png) no-repeat 0 -29px; height:28px; padding:0; width:26px;}
+.topNav_main ul li a,.topNav_main ul li a:visited,.topNav_main ul li a:hover{ color:#333; text-decoration:none;}
+.topNav_main ul li a:hover{ text-decoration:underline;}
+/*top class list*/
+.topNav_main ul .topNav_moreList{ padding:0 0px 0 6px; position:relative;}
+.topEffect{ margin-left:-10px; width:78px;}
+.switch_btn { display: block; height:20px; line-height: 20px; margin:4px 0 0; position:relative; padding: 1px 20px 0 10px; z-index:10002;}
+.switch_on{ background:#fff; border:1px solid #ccc; border-bottom:none; padding: 0 19px 0 9px;}
+.switch_off{ border:none; border-bottom:none;}
+.topNav_main ul li .switch_btn, .topNav_main ul li .switch_btn:visited, .topNav_main ul li .switch_btn:hover{ line-height:18px;line-height:16px\9;text-decoration:none;}
+.switch_btn b{ background:url(http://bj.xdf.cn/Portals/24/xdf_common/images/top_bottom.png) no-repeat; display: block;height: 28px;left: 60px;position:absolute;top:-5px;width: 8px;}
+.switch_btn .arrows_up{ background-position: 0 -103px}
+.switch_btn .arrows_down{ background-position:0 -85px;}
+.switch_list{ display:none;background:#fff;border:1px solid #bfbfbf;line-height:21px;left:-22px; position:absolute;padding:6px 10px 6px 10px;top:24px;text-align:left;width:74px;z-index:10001; }
+.switch_list dl{ text-align:left;}
+/*==========end top============*/
+/*popup*/
+#itsWebsite {float:left;height:28px;text-align:center;width:78px;background:url(http://bj.xdf.cn/Portals/24/xdf_common/images/top_bottom.png) 66px -88px no-repeat; line-height:28px; margin-left:-10px; _margin-left:-5px; position:relative;}
+#topNavList {border-left:1px solid #d0d0d0;border-right:1px solid #d0d0d0;border-bottom:1px solid #d0d0d0;position:absolute; float:left; width:76px; display:none; font-size:12px;color:#515151;margin-top:26px;  margin-left:-10px; *margin-left:-78px;}
+#topNavList dd {list-style:none;float:left;height:21px;width:76px;text-align:center;line-height:21px;background:#FFF;}
+
+/*common share*/
+#common_share{background:#fff;border:1px solid #ccc;color:#333;height:25px;line-height:25px;padding:10px 0 0 5px;width: 953px; margin:0 auto;}
+#common_share a{color:#333;}
+#common_share a:hover{color:#666;}
+/*common copyright*/
+#common_copyright{text-align:center; width:960px; margin:0 auto;}
+#common_copyright .copy_Line{ border-top:1px solid #666; display:block; height:1px; line-height:1px; background:#eee; overflow:hidden;}
+#common_copyright p{ color:#666; font-size:12px; height:21px; line-height:21px; margin:0 auto; text-align:center; padding-top:6px;}
+#common_copyright p a,#common_copyright p a:visited,#common_copyright p a:hover{ color:#666; font-size:12px; padding:0 1em; text-decoration:none;}
+#common_copyright p a:hover{ text-decoration:underline;}
+#common_copyright ul{ background:url(http://bj.xdf.cn/Portals/24/xdf_common/images/top_bottom.png) no-repeat 50px -248px; margin:0 auto; padding:14px 0 10px 100px; text-align:left;  width:330px; }
+#common_copyright ul li{ color:#666; font-size:12px; line-height:21px;}
