@@ -288,7 +288,8 @@ header #logo {
 }
 
 #menu {
-    background: #000;
+    /*background: #000;*/
+    background: rgba(0,0,0,0.6);
     display: block !important;
     position: relative;
     clear: both
@@ -1165,7 +1166,7 @@ a.read-more, a.back {
     width: 800px;}
 #menu li{
     padding-left:0;
-    background: #000000;
+    background: rgba(0,0,0,0.6);
     width: 0; height: 0; text-align: center;
 }
 /*---------------------------------------------------------------------------*/
