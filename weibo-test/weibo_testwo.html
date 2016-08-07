@@ -1,0 +1,247 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>智能课堂 —— 微博ajax接口测试 - www.zhinengshe.com</title>
+    <link href="style/weibo.css" rel="stylesheet" type="text/css"/>
+    <script src="new_ajax6.js"></script>
+    <script src="cookie.js"></script>
+    <script>
+        window.onload = function () {
+            var oBtn1 = document.getElementById('btn1');
+            var oT1 = document.getElementById('t1');
+            var oMsg = document.getElementById('msg_box');
+            var oPage = document.getElementById('page');
+            var url = 'weibo.php';
+            var nowPge=1;
+            oBtn1.onclick = function () {
+//    weibo.php?act=add&content=xxx	添加一条
+//    返回：{error:0, id: 新添加内容的ID, time: 添加时间}
+                ajax({
+                    url: url,
+                    data: {
+                        act: 'add',
+                        content: oT1.value
+                    },
+                    fnSucc:function(str){
+                        var json=eval('('+str+')');
+
+                        if(json.error){
+                            alert('添加失败');
+                        }else{
+                            var oDiv=createMsg(oT1.value,json.time,0,0);
+                            if(oMsg.children){
+                                oMsg.insertBefore(oDiv,oMsg.children[0]);
+                            }else{
+                                oMsg.appendChild(oDiv);
+                            }
+                            if(oMsg.children>6){
+                                oMsg.removeChild(oMsg.children[6]);
+                            }
+                            oT1.value='';
+                            getPag(nowPge);
+                            getPagCount();
+                        }
+                    }
+                });
+
+
+            };
+            function createMsg(cont,time,acc,ref,id) {
+                var oDiv = document.createElement('div');
+                var oDate=new Date();
+                oDate.setTime(time*1000);
+                time=oDate.getFullYear()+'-'+(oDate.getMonth()+1)+'-'+oDate.getDate()+' '+oDate.getHours()+':'+oDate.getMinutes()+':'+oDate.getSeconds();
+
+                oDiv.className='reply';
+                oDiv.innerHTML =
+                        '<p class="replyContent">' + cont + '</p>'
+                        + '<p class="operation">'
+                        + '<span class="replyTime">' + time + '</span>'
+                        + '<span class="handle">'
+                        + '<a href="javascript:;" class="top">'+acc+'</a>'
+                        + '<a href="javascript:;" class="down_icon">'+ref+'</a>'
+                        + '<a href="javascript:;" class="cut">删除</a>'
+                        + '</span>'
+                        + '</p>';
+//                weibo.php?act=acc&id=12			顶某一条数据
+//                返回：{error:0}
+                        var aA=oDiv.getElementsByTagName('a');
+                aA[0].onclick=function(){
+
+                    if(getCookie('acc'+id)){
+                        alert('一天只能顶一次');
+                        return;
+                    }
+                  ajax({
+                      url:url,
+                      data:{
+                          act:'acc',
+                          id:id
+                      },
+                      fnSucc:function(str){
+                          var json=eval('('+str+')');
+                          if(json.error){
+                              alert('顶失败');
+                          }else{
+                              console.log(aA[0].innerHTML);
+                              aA[0].innerHTML=parseInt(aA[0].innerHTML)+1;
+                              setCookie('acc'+id,1,1);
+                          }
+                      }
+                  })
+                };
+//                weibo.php?act=ref&id=12			踩某一条数据
+//                返回：{error:0}
+                aA[1].onclick=function(){
+
+                    if(getCookie('ref'+id))
+                    {alert('一天只能踩一次');
+                        return;}
+                    ajax({
+                        url:url,
+                        data:{
+                            act:'ref',
+                            id:id
+                        },
+                        fnSucc:function(str){
+                            var json=eval('('+str
+                                    +')');
+
+                            if(json.error){
+                                alert('踩失败');
+                            }else{
+                                aA[1].innerHTML=parseInt(aA[1].innerHTML)+1;
+                                setCookie('ref'+id,1,1);
+                            }
+                        }
+                    })
+                };
+//                weibo.php?act=del&id=12			删除一条数据
+//                返回：{error:0}
+                aA[2].onclick=function(){
+
+                    ajax({
+                        url:url,
+                        data:{
+                            act:'del',
+                            id:id
+                        },
+                        fnSucc:function(str){
+                            var json=eval('('+str+')');
+                            if(json.error){
+                                alert('删除失败');
+                            }else{
+                                oMsg.removeChild(oDiv);
+                                getPag(nowPge);
+                                getPagCount();
+                            }
+
+                        }
+                    })
+                };
+
+                return oDiv;
+            }
+//            weibo.php?act=get&page=1		获取一页数据
+//            返回：[{id: ID, content: "内容", time: 时间戳, acc: 顶次数, ref: 踩次数}, {...},
+            getPag(1);
+            function getPag(n){
+                oMsg.innerHTML='';
+                ajax({
+                    url:url,
+                    data:{
+                        act:'get',
+                        page:n
+                    },
+                    fnSucc:function(str){
+                        var arr=eval('('+str+')');
+                        for(var i=0;i<arr.length;i++){
+                            var oDiv=createMsg(arr[i].content,arr[i].time,arr[i].acc,arr[i].ref,arr[i].id)
+                            oMsg.appendChild(oDiv);
+                        }
+                    }
+                })
+
+            }
+
+
+//weibo.php?act=get_page_count	获取页数
+//            返回：{count:页数}
+            getPagCount();
+            function getPagCount(){
+                oPage.innerHTML='';
+                ajax({
+                    url:url,
+                    data:{
+                        act:'get_page_count'
+                    },
+                    fnSucc:function(str){
+                        var json=eval('('+str+')');
+                       for(var i=0;i<json.count;i++){
+
+                           var oA=document.createElement('a');
+                           oA.href='javascript:;';
+                           oA.innerHTML=i+1;
+                           if(!i) {
+                               oA.className = 'active';
+                           }
+                               oPage.appendChild(oA);
+                               oA.onclick=function(){
+                                    for(var i=0;i<oPage.children.length;i++){
+                                        oPage.children[i].className=''
+                                    }
+                                   this.className='active';
+                                   getPag(this.innerHTML);
+                                   nowPge=this.innerHTML;
+
+
+                               }
+
+
+
+                        }
+                    }
+                })
+
+            }
+
+
+        }
+    </script>
+</head>
+
+<body>
+<div class="znsArea">
+    <!--留言-->
+    <div class="takeComment">
+        <textarea name="textarea" class="takeTextField" id="t1"></textarea>
+        <div class="takeSbmComment">
+            <input type="button" class="inputs" value="" id="btn1"/>
+            <span>(可按 Enter 回复)</span>
+        </div>
+    </div>
+    <!--已留-->
+    <div class="commentOn">
+        <div class="messList" id="msg_box">
+            <!--<div class="reply">
+                <p class="replyContent">卫士，新款卫士将推出总共14种车身式样。其中， XS旅行款车型售价为32295英镑(约33.6万元)。</p>
+                <p class="operation">
+                    <span class="replyTime">2011-09-08 16:37:60</span>
+                    <span class="handle">
+                        <a href="javascript:;" class="top">0</a>
+                        <a href="javascript:;" class="down_icon">0</a>
+                        <a href="javascript:;" class="cut">删除</a>
+                    </span>
+                </p>
+            </div>-->
+        </div>
+        <div class="page" id="page">
+            <!--<a href="javascript:;" class="active">1</a>-->
+            <!--<a href="javascript:;">2</a>-->
+            <!--<a href="javascript:;">3</a>-->
+        </div>
+    </div>
+</div>
+</body>
+</html>
